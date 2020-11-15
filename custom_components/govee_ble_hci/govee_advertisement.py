@@ -110,6 +110,23 @@ class GoveeAdvertisement:
                 temp_lsb_int = int(temp_lsb, 16)
                 self.temperature = float(twos_complement(temp_lsb_int) / 100)
                 self.battery = int(self.mfg_data[7])
+            elif self.check_is_ThermoBeacon():
+                # .. .. .. ID ID ID ID ID ID ID ID ID .. .. TEMPE HUMID .. .. .. ..
+                # 15 ff 11 00 00 00 fe 01 00 00 e1 00 3b 0c 6e 01 a0 03 e2 30 01 00 bc
+                self.name = "Thermobeacon"
+                self.packet = hex_string(self.mfg_data)
+                # Temperature (-20 to +65)
+                # Temperate hex stored reversed. Multiply second byte by 256 then add to first
+                # Negative temperature stored an two's complement
+                temp_temp = twos_complement((int(self.mfg_data[12]) + (int(self.mfg_data[13]) * 256)))
+                # Data is actual value multiplied by 16
+                self.temperature = float(temp_temp/16)
+                # Humidity
+                # Humidity hex stored reversed. Multiply second byte by 256 then add to first
+                # Data is actual value multiplied by 16
+                self.humidity = float((int(self.mfg_data[14]) + (int(self.mfg_data[15]) * 256))/16)
+                # Not identified battery data
+                self.battery = 100
         except (ValueError, IndexError):
             pass
 
@@ -128,6 +145,12 @@ class GoveeAdvertisement:
     def check_is_gvh5051(self) -> bool:
         """Check if mfg data is that of Govee H5051."""
         return self._mfg_data_check(11, 6)
+
+    def check_is_ThermoBeacon(self) -> bool:
+        """Check if mfg data is that of ThermoBeacon."""
+        # Looking for message len 0x15 (21) [_mfg_data_check does not include type so minus 1] 
+        # Not sure about Flag but 6 seems to work here.  maybe first message in packet  
+        return self._mfg_data_check(20, 6)
 
     def _mfg_data_check(self, data_length: int, flags: int) -> bool:
         """Check if mfg data is of a certain length with the correct flag."""
