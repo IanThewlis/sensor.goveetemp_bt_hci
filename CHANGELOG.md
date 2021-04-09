@@ -1,6 +1,23 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 0.9.2
+**Fix:**
+  - **Update bleson package to version 0.18, fixes non BLE spec device name errors**
+
+## 0.9.1
+**Fix:**
+  - **Add version to manifest.json**
+
+## 0.9.0
+**Feature:**
+  - **Added support for the Govee H5179** (Thank you [skilau](https://github.com/skilau))
+
+## 0.8.0
+**Fix:**
+  - **Decode negative temperature for Govee H5072, Govee H5075, Govee H5051 and Govee H5052**
+  - **Catch remaining StatisticsError instances in sensor**
+
 ## 0.7.1
 **Fix:**
   - **Update bleson package, fixes constant RSSI value**
