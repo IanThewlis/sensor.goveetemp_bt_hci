@@ -14,6 +14,7 @@ A custom component for [Home Assistant](https://www.home-assistant.io) that list
 * [Govee H5102](https://www.amazon.com/gp/product/B087313N8F/)
 * [Govee H5177](https://www.amazon.com/gp/product/B08C9VYMHY)
 * [Govee H5179](https://www.amazon.com/gp/product/B0872ZWV8X) (BLE only)
+* Thermobeacon devices (eg https://www.amazon.co.uk/Brifit-Thermometer-Hygrometer-Temperature-Greenhouse)
 
 ## Installation
 
